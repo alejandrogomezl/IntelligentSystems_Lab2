@@ -2,6 +2,7 @@ import json
 from state import State
 from action import Action
 from problem import Problem
+from candidates import Candidates
 from search import Search
 
 def loadJSON(file_path):
@@ -30,19 +31,17 @@ def loadJSON(file_path):
         segments.append(segment)
         origin.neighbors.append((destination, segment))
 
-    initial_state = intersections[data["initial"]]
-    goal_state = intersections[data["final"]]
+    candidates = []
+    for cand_data in data["candidates"]:
+        intersection = intersections[cand_data[0]]
+        population = cand_data[1]
+        candidates.append(Candidates(intersection, population))
+
 
     for state in intersections.values():
         # Sort by id
         state.neighbors.sort(key=lambda x: x[0].identifier, reverse=False)
-
-        # Sort by heuristic
-        #state.neighbors.sort(key=lambda x: heuristic(x[0], goal_state), reverse=False)
-
-        #Sort by distance
-        #state.neighbors.sort(key=lambda x: x[0].distance, reverse=False)
         
 
 
-    return Problem(initial_state, goal_state, intersections, segments)
+    return Problem(intersections, segments, candidates, data["number_stations"])
