@@ -11,19 +11,10 @@ class State:
         self.neighbors = []
     
     def __eq__(self, other):
-        """
-        Compara dos estados basados en su identificador.
-        """
         return isinstance(other, State) and self.identifier == other.identifier
     
     def __hash__(self):
-        """
-        Permite que los estados sean utilizados en conjuntos y como claves en diccionarios.
-        """
         return hash(self.identifier)
     
     def __repr__(self):
-        """
-        Representación amigable del estado, mostrando el identificador y las coordenadas.
-        """
         return f"State(identifier={self.identifier}, longitude={self.longitude}, latitude={self.latitude})"
