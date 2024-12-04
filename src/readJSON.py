@@ -3,7 +3,6 @@ from state import State
 from action import Action
 from problem import Problem
 from candidates import Candidates
-from search import Search
 
 def loadJSON(file_path):
     with open(file_path, "r") as f:
@@ -36,6 +35,7 @@ def loadJSON(file_path):
         intersection = intersections[cand_data[0]]
         population = cand_data[1]
         candidates.append(Candidates(intersection, population))
+
 
 
     for state in intersections.values():

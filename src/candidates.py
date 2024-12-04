@@ -2,7 +2,7 @@ from state import State
 
 class Candidates:
     def __init__(self, intersection, population):
-        self.intersection = State
+        self.intersection = intersection
         self.population = population
 
     def __eq__(self, value: object) -> bool:
