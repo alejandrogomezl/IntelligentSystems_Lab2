@@ -4,4 +4,4 @@ The 4 stations will be located in intersections:
 435465434
 2822641953
 
-
+[0,0,0,0,1,0,0,0,1,0,0,0,1,0,1]

@@ -4,6 +4,7 @@ from node import Node
 import time
 import geopy.distance
 import itertools
+import random
 
 class Search:
     def __init__(self, problem):
@@ -62,7 +63,6 @@ class Search:
                     nodes_generated += 1
 
         return None
-    
     
     def cached_a_star(self, start, goal):
         if (start, goal) in self.cache:
