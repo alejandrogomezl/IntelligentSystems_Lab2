@@ -27,3 +27,11 @@ class SearchNew:
                 best = current
                 best_cost = cost
         return best, best_cost
+
+    def getSelectedIds(self, binary_array):
+        selected_ids = [
+            cand.intersection.identifier
+            for cand, bit in zip(self.problem.candidates, binary_array)
+            if bit == 1
+        ]
+        return selected_ids

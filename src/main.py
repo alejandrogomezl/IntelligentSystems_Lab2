@@ -6,4 +6,6 @@ hola = loadJSON("./sample-problems-lab2/toy/calle_del_virrey_morcillo_albacete_2
 
 
 alo = SearchNew(hola)
-print(alo.randomSearch(100))
+rs=alo.randomSearch(100000)
+print(rs)
+print(alo.getSelectedIds(rs[0]))

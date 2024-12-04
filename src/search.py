@@ -66,7 +66,7 @@ class Search:
     
     def cached_a_star(self, start, goal):
         if (start, goal) in self.cache:
-            print("Cache hit")
+            if False: print("Cache hit")
             return self.cache[(start, goal)]
         
         cost = self.a_star(start, goal)
