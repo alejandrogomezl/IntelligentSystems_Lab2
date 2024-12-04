@@ -72,5 +72,4 @@ class Search:
         cost = self.a_star(start, goal)
         
         self.cache[(start, goal)] = cost
-        
         return cost
