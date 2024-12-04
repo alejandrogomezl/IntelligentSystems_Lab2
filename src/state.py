@@ -18,3 +18,6 @@ class State:
     
     def __repr__(self):
         return f"State(identifier={self.identifier}, longitude={self.longitude}, latitude={self.latitude})"
+    
+    def __str__(self):
+        return f"Intersección ID: {self.identifier}, Longitud: {self.longitude}, Latitud: {self.latitude}"
