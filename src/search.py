@@ -5,18 +5,34 @@ import time
 import geopy.distance
 import itertools
 import random
+from math import radians, sin, cos, sqrt, atan2
 
 class Search:
     def __init__(self, problem):
         self.problem = problem
         self.cache = {}
 
+    # def heuristic(self, state, goal):
+    #     current = (state.latitude, state.longitude)
+    #     dest = (goal.latitude, goal.longitude)
+    #     dist = geopy.distance.distance(current, dest).meters
+    #     speed = 120 / 3.6
+    #     return dist / speed
+
     def heuristic(self, state, goal):
-        current = (state.latitude, state.longitude)
-        dest = (goal.latitude, goal.longitude)
-        dist = geopy.distance.distance(current, dest).meters
+        lat1, lon1 = radians(state.latitude), radians(state.longitude)
+        lat2, lon2 = radians(goal.latitude), radians(goal.longitude)
+        
+        dlon = lon2 - lon1
+        dlat = lat2 - lat1
+
+        a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
+        c = 2 * atan2(sqrt(a), sqrt(1 - a))
+
+        distance = 6373 * c
         speed = 120 / 3.6
-        return dist / speed
+
+        return distance / speed
 
     # A* Search
     def a_star(self, initial, goal):
