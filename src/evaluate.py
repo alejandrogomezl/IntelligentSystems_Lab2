@@ -11,14 +11,14 @@ class Evaluate:
         self.cache = {}
 
     def evaluate(self, selected):
-        self.total_evaluations += 1
         selected_key = tuple(selected)
 
+        # Verificar si ya se evaluó esta solución
         if selected_key in self.cache:
             if self.debug: print("Cache hit")
             return self.cache[selected_key]
 
-        self.real_evaluations += 1
+        self.real_a_star_calls += 1
         selected_states = [cand.intersection for cand, bit in zip(self.problem.candidates, selected) if bit == 1]
 
         total_weighted_distance = 0
@@ -32,20 +32,28 @@ class Evaluate:
             if candidate_state in selected_states:
                 min_distance = 0
             else:
-                min_distance = 100000000000000000
+                min_distance = float('inf')
                 for station_state in selected_states:
                     self.total_a_star_calls += 1
                     result = self.ser.cached_a_star(candidate_state, station_state)
                     if result is None:
-                        distance = 100000000000000000
+                        distance = float('inf')
                     else:
                         distance = result[4]
-                        self.real_a_star_calls += 1
-
                     min_distance = min(min_distance, distance)
+
+            # Si no hay camino válido, usar un valor alto
+            if min_distance == float('inf'):
+                min_distance = 100000000000000000
 
             total_weighted_distance += min_distance * population
 
-        result = total_weighted_distance / total_population if total_population > 0 else float('inf')
+        # Validar población total
+        if total_population == 0:
+            print("Error: Total population is zero. Returning infinity.")
+            return float('inf')
+
+        # Calcular el costo
+        result = total_weighted_distance / total_population
         self.cache[selected_key] = result
         return result
