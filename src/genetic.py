@@ -38,24 +38,41 @@ class GeneticAlgorithm:
         return individual
 
     def repair_individual(self, individual):
-        nStations = self.problem.nstations
-        selected = sum(individual)
+        """
+        Repara un individuo para asegurar que tiene exactamente `nstations` unos.
+
+        Parámetro:
+        - individual: Array binario a reparar.
+
+        Devuelve:
+        - Un individuo reparado que cumple las restricciones.
+        """
+        nStations = self.problem.nstations  # Número de estaciones requeridas
+        selected = sum(individual)  # Número actual de unos (1s)
+
         if selected > nStations:
             # Si hay demasiados unos, cambiar algunos a ceros
-            indices = [i for i, bit in enumerate(individual) if bit == 1]
-            random.shuffle(indices)
-            for i in indices[:selected - nStations]:
+            indices = [i for i, bit in enumerate(individual) if bit == 1]  # Índices de unos
+            random.shuffle(indices)  # Mezclar los índices
+            for i in indices[:selected - nStations]:  # Reducir el exceso
                 individual[i] = 0
+
         elif selected < nStations:
             # Si hay pocos unos, cambiar algunos ceros a unos
-            indices = [i for i, bit in enumerate(individual) if bit == 0]
-            random.shuffle(indices)
-            for i in indices[:nStations - selected]:
+            indices = [i for i, bit in enumerate(individual) if bit == 0]  # Índices de ceros
+            random.shuffle(indices)  # Mezclar los índices
+            for i in indices[:nStations - selected]:  # Completar el déficit
                 individual[i] = 1
+
         return individual
 
+
+
     def run(self):
-        # Inicializar población
+        """
+        Ejecuta el algoritmo genético.
+        """
+        # Generar población inicial
         population = [self.generate_individual() for _ in range(self.population_size)]
         best_individual = None
         best_cost = float('inf')
@@ -76,11 +93,12 @@ class GeneticAlgorithm:
             offspring = []
             for _ in range(self.population_size // 2):
                 child1, child2 = self.crossover(parent1, parent2)
-                offspring.append(self.repair_individual(child1))
-                offspring.append(self.repair_individual(child2))
+                offspring.append(self.repair_individual(child1))  # Reparar hijo 1
+                offspring.append(self.repair_individual(child2))  # Reparar hijo 2
 
             # Mutación
-            population = [self.mutate(ind) for ind in offspring]
+            population = [self.repair_individual(self.mutate(ind)) for ind in offspring]  # Reparar después de mutación
 
         return best_individual, best_cost
+
 

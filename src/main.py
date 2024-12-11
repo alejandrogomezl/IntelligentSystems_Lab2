@@ -6,18 +6,18 @@ from genetic import GeneticAlgorithm
 hola = loadJSON("./sample-problems-lab2/toy/calle_del_virrey_morcillo_albacete_250_3_candidates_15_ns_4.json")
 
 
-# alo = SearchNew(hola)
-# rs=alo.randomSearch(100000)
-# print(rs)
-# print(alo.getSelectedIds(rs[0]))
+alo = SearchNew(hola)
+rs=alo.randomSearch(100000)
+print(rs)
+print(alo.getSelectedIds(rs[0]))
 
 problem = hola
 
 ga = GeneticAlgorithm(
     problem=problem,
-    population_size=50,  # Número de individuos en la población
-    generations=100,     # Número de generaciones
-    mutation_rate=0.1    # Probabilidad de mutación
+    population_size=50,
+    generations=100,
+    mutation_rate=0.1
 )
 
 # Ejecutar el algoritmo
