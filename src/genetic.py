@@ -1,5 +1,6 @@
 import random
 from evaluate import Evaluate
+import time
 
 class GeneticAlgorithm:
     def __init__(self, problem, population_size, generations, mutation_rate):
@@ -102,3 +103,35 @@ class GeneticAlgorithm:
         return best_individual, best_cost
 
 
+    def run_with_logging(self):
+        """
+        Ejecuta el algoritmo genético y genera una salida similar al formato requerido.
+        """
+        start_time = time.time()
+
+        best_solution, best_cost = self.run()  # Ejecuta el algoritmo genético
+        elapsed_time = time.time() - start_time
+
+        # Obtener IDs de las estaciones seleccionadas
+        selected_ids = [
+            candidate.intersection.identifier
+            for candidate, bit in zip(self.problem.candidates, best_solution)
+            if bit == 1
+        ]
+
+        # Salida formateada
+        print(f"total seconds is : {elapsed_time}")
+        print()
+        print(f"Best Solution: {best_solution}")
+        print(f"The {len(selected_ids)} stations will be located in intersections:")
+        print("\n".join(map(str, selected_ids)))
+        print()
+        print(f"Best Solution Fitness: {best_cost}")
+        print("A_star calls:")
+        print(f"\ttotal --> {self.evaluate.total_a_star_calls}")
+        print(f"\treal --> {self.evaluate.real_a_star_calls}")
+        print("Evaluated individuals:")
+        print(f"\ttotal --> {self.evaluate.total_evaluations}")
+        print(f"\treal --> {self.evaluate.real_evaluations}")
+        print("_" * 50)
+        print()
