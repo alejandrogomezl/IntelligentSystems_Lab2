@@ -23,13 +23,12 @@ class GeneticAlgorithm:
         return [(individual, self.evaluate.evaluate(individual)) for individual in population]
 
     def selection(self, evaluated_population):
-        # Ordenar por fitness (menor es mejor)
+        #Menor mejor
         evaluated_population.sort(key=lambda x: x[1])
-        # Seleccionar los dos mejores
         return evaluated_population[0][0], evaluated_population[1][0]
 
     def crossover(self, parent1, parent2):
-        point = random.randint(1, len(parent1) - 1)  # Punto de cruce
+        point = random.randint(1, len(parent1) - 1)
         child1 = parent1[:point] + parent2[point:]
         child2 = parent2[:point] + parent1[point:]
         return child1, child2
@@ -86,7 +85,6 @@ class GeneticAlgorithm:
     def run_with_logging(self):
         start_time = time.time()
 
-        # Reiniciar estadísticas de evaluación
         self.evaluate.total_a_star_calls = 0
         self.evaluate.real_a_star_calls = 0
         self.evaluate.total_evaluations = 0
