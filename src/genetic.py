@@ -112,7 +112,7 @@ class GeneticAlgorithm:
         print(f"\ttotal --> {self.evaluate.total_a_star_calls}")
         print(f"\treal --> {self.evaluate.real_a_star_calls}")
         print("Evaluated individuals:")
-        print(f"\ttotal --> {self.population_size * self.generations}")
+        print(f"\ttotal --> {self.evaluate.total_evaluations}")
         print(f"\treal --> {self.evaluate.real_evaluations}")
         print("_" * 50)
         print()
