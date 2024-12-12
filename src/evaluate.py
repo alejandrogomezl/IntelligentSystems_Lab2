@@ -1,8 +1,8 @@
-from search import Search
+from astar import astar
 class Evaluate:
     def __init__(self, problem):
         self.problem = problem
-        self.ser = Search(self.problem)
+        self.ser = astar(self.problem)
         self.debug = False
         self.total_a_star_calls = 0
         self.real_a_star_calls = 0

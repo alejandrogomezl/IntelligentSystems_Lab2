@@ -7,7 +7,7 @@ import itertools
 import random
 from math import radians, sin, cos, sqrt, atan2
 
-class Search:
+class astar:
     def __init__(self, problem):
         self.problem = problem
         self.cache = {}

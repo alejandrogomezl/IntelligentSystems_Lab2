@@ -10,6 +10,8 @@ class GeneticAlgorithm:
         self.mutation_rate = mutation_rate
         self.evaluate = Evaluate(problem)
 
+        self.cont = 0
+
     def generate_individual(self):
         nCandidates = len(self.problem.candidates)
         nStations = self.problem.nstations
@@ -76,7 +78,7 @@ class GeneticAlgorithm:
         # Generar población inicial
         population = [self.generate_individual() for _ in range(self.population_size)]
         best_individual = None
-        best_cost = float('inf')
+        best_cost = 100000000000000000
 
         for generation in range(self.generations):
             # Evaluar población
@@ -85,6 +87,7 @@ class GeneticAlgorithm:
             # Actualizar el mejor individuo encontrado
             for individual, cost in evaluated_population:
                 if cost < best_cost:
+                    print(f"Best cost: {cost}")
                     best_individual, best_cost = individual, cost
 
             # Selección
