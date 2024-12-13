@@ -1,6 +1,6 @@
 import random
-from evaluate import Evaluate
 import time
+from evaluate import Evaluate
 
 class GeneticAlgorithm:
     def __init__(self, problem, population_size, generations, mutation_rate):
@@ -22,10 +22,27 @@ class GeneticAlgorithm:
     def evaluate_population(self, population):
         return [(individual, self.evaluate.evaluate(individual)) for individual in population]
 
-    def selection(self, evaluated_population):
-        #Menor mejor
-        evaluated_population.sort(key=lambda x: x[1])
-        return evaluated_population[0][0], evaluated_population[1][0]
+    def tournament_selection(self, evaluated_population, tournament_size=3):
+        """
+        Selección por torneo.
+        
+        Parámetros:
+        - evaluated_population: Población evaluada con (individuo, fitness).
+        - tournament_size: Número de individuos en cada torneo.
+
+        Devuelve:
+        - Dos individuos seleccionados como padres.
+        """
+        def run_tournament():
+            # Seleccionar aleatoriamente participantes del torneo
+            participants = random.sample(evaluated_population, tournament_size)
+            # Elegir el mejor individuo del torneo (menor fitness)
+            winner = min(participants, key=lambda x: x[1])
+            return winner[0]  # Retorna el individuo ganador
+
+        parent1 = run_tournament()
+        parent2 = run_tournament()
+        return parent1, parent2
 
     def crossover(self, parent1, parent2):
         point = random.randint(1, len(parent1) - 1)
@@ -55,7 +72,7 @@ class GeneticAlgorithm:
             for i in indices[:nStations - selected]:
                 individual[i] = 1
 
-        return individual
+        return individual   
 
     def run(self):
         population = [self.generate_individual() for _ in range(self.population_size)]
@@ -67,10 +84,9 @@ class GeneticAlgorithm:
 
             for individual, cost in evaluated_population:
                 if cost < best_cost:
-                    print(f"Best cost: {cost}")
                     best_individual, best_cost = individual, cost
 
-            parent1, parent2 = self.selection(evaluated_population)
+            parent1, parent2 = self.tournament_selection(evaluated_population)
 
             offspring = []
             for _ in range(self.population_size // 2):
@@ -78,7 +94,7 @@ class GeneticAlgorithm:
                 offspring.append(self.repair_individual(child1))
                 offspring.append(self.repair_individual(child2))
 
-            population = [self.repair_individual(self.mutate(ind)) for ind in offspring]
+            population = offspring
 
         return best_individual, best_cost
 
